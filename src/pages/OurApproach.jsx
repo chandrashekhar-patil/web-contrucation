@@ -19,7 +19,8 @@ const Section = ({ title, content, children }) => (
 );
 
 const OurApproach = () => {
-    const { header, intro, covidResponse, modernMethods, bim, supplyChain, sustainability } = ourApproachData;
+    // FIX 1: Changed 'modernMethods' to 'offsiteMethods' to match the data key.
+    const { header, intro, covidResponse, offsiteMethods, bim, supplyChain, sustainability } = ourApproachData;
 
     return (
         <div>
@@ -29,9 +30,12 @@ const OurApproach = () => {
                     <p>{intro.content}</p>
                 </Section>
                 <Section title={covidResponse.title} content={covidResponse.content} />
-                <Section title={modernMethods.title} content={modernMethods.content} />
+                
+                {/* FIX 2: Using the corrected variable 'offsiteMethods' here. */}
+                <Section title={offsiteMethods.title} content={offsiteMethods.content} />
+                
                 <Section title={bim.title} content={bim.content} />
-                <Section title={supplyChain.title} content={supplyChain.content} />
+                <Section title={supplyChain.title} content={supplyChain.intro} />
                 <Section title={sustainability.title}>
                     <p className="text-xl italic text-action-red">{sustainability.tagline}</p>
                     <p>{sustainability.content}</p>

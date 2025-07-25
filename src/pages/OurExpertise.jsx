@@ -4,14 +4,15 @@ import { FiCheckCircle } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 const OurExpertise = () => {
-  const { header, horticulture, coreSectors, sustainabilityDesign } = ourExpertiseData;
+  // FIX 1: Changed 'coreSectors' to 'generalExpertise' to match the data object
+  const { header, horticulture, generalExpertise, sustainabilityDesign } = ourExpertiseData;
 
   return (
     <div>
       <PageHeader title={header.title} subtitle={header.subtitle} />
       <div className="container mx-auto px-6 py-16 space-y-20">
         
-        {/* Horticulture Section */}
+        {/* Horticulture Section (No changes needed here) */}
         <section>
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-oxford-blue">{horticulture.title}</h2>
@@ -35,13 +36,13 @@ const OurExpertise = () => {
             </div>
         </section>
 
-        {/* Core Sectors */}
+        {/* Core Sectors (Updated to use 'generalExpertise') */}
         <section>
              <div className="text-center">
-                <h2 className="text-3xl font-bold text-oxford-blue mb-10">{coreSectors.title}</h2>
+                <h2 className="text-3xl font-bold text-oxford-blue mb-10">{generalExpertise.title}</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-10">
-                {coreSectors.items.map((item, i) => (
+                {generalExpertise.items.map((item, i) => (
                      <div key={i} className="flex items-start space-x-4">
                         <FiCheckCircle className="text-action-red h-6 w-6 mt-1 flex-shrink-0"/>
                         <div>
@@ -53,16 +54,13 @@ const OurExpertise = () => {
             </div>
         </section>
 
-        {/* Sustainability Design */}
+        {/* FIX 2: Sustainability Design (Updated to display 'tagline' and 'content' instead of mapping 'points') */}
         <section className="bg-oxford-blue text-white p-12 rounded-lg">
             <h2 className="text-3xl font-bold text-center">{sustainabilityDesign.title}</h2>
             <p className="text-lg text-center mt-4 text-gray-300 max-w-4xl mx-auto">{sustainabilityDesign.intro}</p>
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                {sustainabilityDesign.points.map((point, i) => (
-                    <div key={i} className="bg-white/10 p-4 rounded-md">
-                        <p className="font-semibold">{point}</p>
-                    </div>
-                ))}
+            <div className="mt-8 text-center">
+                <p className="font-semibold text-xl italic mb-2">{sustainabilityDesign.tagline}</p>
+                <p className="text-gray-300 max-w-3xl mx-auto">{sustainabilityDesign.content}</p>
             </div>
         </section>
 

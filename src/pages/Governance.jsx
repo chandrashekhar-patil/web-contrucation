@@ -1,112 +1,84 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
-import { governanceData } from '../data/governanceData'; // This file will be created next
+import { governanceData } from '../data/governanceData'; // Assumes governanceData is in this file
 import { motion, AnimatePresence } from 'framer-motion';
 
-// A reusable component for sections with a title and content
+// A reusable component for section titles
 const ContentSection = ({ title, children }) => (
     <div className="mb-8">
-        <h3 className="text-xl font-bold text-oxford-blue mb-3 border-b border-custom-silver pb-2">{title}</h3>
+        <h3 className="text-2xl font-bold text-oxford-blue mb-4 border-b-2 border-custom-silver pb-2">{title}</h3>
         <div className="space-y-4 text-medium-gray leading-relaxed">{children}</div>
     </div>
 );
 
-// Component to render the main Corporate Governance content
+// --- NEW Content Components to Match Your Data ---
+
 const CorporateGovernanceContent = ({ data }) => (
-    <>
-        <p className="mb-6 text-lg leading-relaxed">{data.intro}</p>
-        <p className="mb-8 leading-relaxed">{data.boardDiversity}</p>
-        <ContentSection title="Summary of the Chairman's role">
-            <ul className="list-disc list-inside space-y-2">
-                {data.chairmanRole.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </ContentSection>
-        <ContentSection title="Summary of the Chief Executive's role">
-             <ul className="list-disc list-inside space-y-2">
-                {data.ceoRole.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </ContentSection>
-         <ContentSection title="Summary of the Senior Independent Director's role">
-             <ul className="list-disc list-inside space-y-2">
-                {data.sidRole.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </ContentSection>
-        <ContentSection title="Our Committees">
-            <p>{data.committees.intro}</p>
-            <div className="flex flex-wrap gap-4 mt-4">
-                {data.committees.list.map((committee, i) => (
-                    <span key={i} className="bg-light-gray px-4 py-2 rounded-full text-dark-charcoal font-medium">{committee}</span>
-                ))}
-            </div>
-        </ContentSection>
-    </>
+    <ContentSection title={data.title}>
+        {data.content.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+        ))}
+    </ContentSection>
 );
 
-// Component for the Modern Slavery Statement
-const ModernSlaveryContent = ({ data }) => (
-    <>
-        <p className="mb-6 text-sm italic">{data.statementDate}</p>
-        <ContentSection title="Introduction">{data.introduction}</ContentSection>
-        <ContentSection title="Organisation's Structure">{data.organisationStructure}</ContentSection>
-        <ContentSection title="Our Business">{data.ourBusiness}</ContentSection>
-        <ContentSection title="Supply Chain Risk">
-            <p>{data.supplyChainRisk.intro}</p>
-            <ul className="list-disc list-inside pl-4 space-y-1">
-                {data.supplyChainRisk.risks.map((risk, i) => <li key={i}>{risk}</li>)}
-            </ul>
-        </ContentSection>
-        <ContentSection title="Our Policies on Slavery and Human Trafficking">{data.ourPolicies}</ContentSection>
-         <ContentSection title="Further Steps">
-             <ul className="list-disc list-inside space-y-2">
-                {data.furtherSteps.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </ContentSection>
-    </>
-);
-
-// Component for the Supervisor Board Charter
-const SupervisorBoardContent = ({ data }) => (
-    <>
-        <p className="mb-8 leading-relaxed">{data.intro}</p>
-        <h3 className="text-xl font-bold text-oxford-blue mb-4">Task Description of the Risk Committee (RiCo)</h3>
-        <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-custom-silver">
-                <thead className="bg-oxford-blue text-white">
-                    <tr>
-                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Task</th>
-                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Description</th>
-                    </tr>
-                </thead>
-                <tbody className="text-dark-charcoal">
-                    {data.tasks.map((task, index) => (
-                        <tr key={index} className="border-b border-custom-silver hover:bg-light-gray">
-                            <td className="py-3 px-4 font-semibold align-top">{task.task}</td>
-                            <td className="py-3 px-4 leading-relaxed">{task.description}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+const BoardCommitteesContent = ({ data }) => (
+    <ContentSection title={data.title}>
+        <div className="space-y-6">
+            {data.content.map((committee, i) => (
+                <div key={i} className="p-4 bg-light-gray rounded-md">
+                    <h4 className="font-bold text-dark-charcoal">{committee.name}</h4>
+                    <p>{committee.description}</p>
+                </div>
+            ))}
         </div>
-    </>
+    </ContentSection>
 );
+
+const PoliciesContent = ({ data }) => (
+    <ContentSection title={data.title}>
+        <div className="grid md:grid-cols-2 gap-6">
+            {data.content.map((policy, i) => (
+                <div key={i} className="border-l-4 border-action-red pl-4">
+                    <h4 className="font-bold text-dark-charcoal">{policy.name}</h4>
+                    <p>{policy.description}</p>
+                </div>
+            ))}
+        </div>
+    </ContentSection>
+);
+
+const ComplianceContent = ({ data }) => (
+    <ContentSection title={data.title}>
+         {data.content.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+        ))}
+    </ContentSection>
+);
+
+
+// --- Main Governance Component (Updated) ---
 
 const Governance = () => {
+    // UPDATED: Tabs now match the keys in your new governanceData object
     const tabs = [
         'Corporate Governance',
-        'Modern Slavery Statement',
-        'Supervisor Board',
+        'Board Committees',
+        'Key Policies',
+        'Regulatory Compliance'
     ];
-    // Add 'Our Auditors', 'Risk Department', etc. as you create their data
     const [activeTab, setActiveTab] = useState(tabs[0]);
 
+    // UPDATED: This function now renders the new components with the correct data
     const renderContent = () => {
         switch(activeTab) {
             case 'Corporate Governance':
                 return <CorporateGovernanceContent data={governanceData.corporateGovernance} />;
-            case 'Modern Slavery Statement':
-                return <ModernSlaveryContent data={governanceData.modernSlavery} />;
-            case 'Supervisor Board':
-                return <SupervisorBoardContent data={governanceData.supervisorBoard} />;
+            case 'Board Committees':
+                return <BoardCommitteesContent data={governanceData.boardCommittees} />;
+            case 'Key Policies':
+                return <PoliciesContent data={governanceData.policies} />;
+            case 'Regulatory Compliance':
+                return <ComplianceContent data={governanceData.compliance} />;
             default:
                 return null;
         }
@@ -114,10 +86,10 @@ const Governance = () => {
 
     return (
         <div>
-            <PageHeader title="Governance" subtitle="Our commitment to robust corporate governance, ethical practices, and transparency." />
+            <PageHeader title={governanceData.header.title} subtitle={governanceData.header.subtitle} />
 
             <div className="container mx-auto px-6 py-16">
-                {/* Tab Navigation */}
+                {/* Tab Navigation (No structural changes needed here) */}
                 <div className="border-b border-custom-silver mb-8">
                     <nav className="flex flex-wrap -mb-px">
                         {tabs.map(tab => (
