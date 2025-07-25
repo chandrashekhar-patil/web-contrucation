@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
@@ -12,56 +12,72 @@ import Investors from './pages/Investors';
 import ContactUs from './pages/ContactUs';
 import Governance from './pages/Governance';
 import PrivacyAndSecurity from './pages/PrivacyAndSecurity';
+// It's good practice to have a 404 page
+// import NotFoundPage from './pages/NotFoundPage'; 
 
 /**
  * The main App component sets up the routing for the entire website.
  * It uses React Router to define which component should be rendered for each URL path.
- * All pages are wrapped in the MainLayout to ensure a consistent Header and Footer.
+ * This version includes placeholder routes for all sub-menu items to ensure all links work.
  */
 function App() {
   return (
     <Router>
       <Routes>
-        {/* The MainLayout component wraps all pages, providing the header and footer */}
         <Route path="/" element={<MainLayout />}>
-          {/* The index route is the default page for the parent route ('/') */}
+          {/* Main Pages */}
           <Route index element={<Home />} />
-          
-          {/* Defines the route for the "About Us" page */}
           <Route path="about-us" element={<AboutUs />} />
-          
-          {/* Defines the route for the "Our Expertise" page */}
           <Route path="our-expertise" element={<OurExpertise />} />
-          
-          {/* Defines the route for the "Our Approach" page */}
           <Route path="our-approach" element={<OurApproach />} />
-          
-          {/* Defines the route for the "Our Projects" page */}
           <Route path="our-projects" element={<OurProjects />} />
-          
-          {/* Defines the route for the "Sectors" page */}
           <Route path="sectors" element={<Sectors />} />
-          
-          {/* Defines the route for the "Customer Guide" page */}
           <Route path="customer-guide" element={<CustomerGuide />} />
-          
-          {/* Defines the route for the "Careers" page */}
           <Route path="careers" element={<Careers />} />
-          
-          {/* Defines the route for the "Investors" page */}
           <Route path="investors" element={<Investors />} />
-          
-          {/* Defines the route for the "Contact Us" page */}
           <Route path="contact-us" element={<ContactUs />} />
-          
-          {/* Defines the route for the "Governance" page */}
           <Route path="governance" element={<Governance />} />
-          
-          {/* Defines the route for the "Privacy & Security" page */}
           <Route path="privacy-and-security" element={<PrivacyAndSecurity />} />
+          <Route path="become-partner" element={<ContactUs />} /> {/* Assuming this links to Contact */}
 
-          {/* A catch-all route for any undefined paths could be added here */}
+          {/* --- Sub-page routes to make all menu links functional --- */}
+          {/* In a real app, you might create specific components or have the parent page handle these */}
+          
+          {/* About Us Sub-Routes */}
+          <Route path="about-us/:section" element={<AboutUs />} />
+
+          {/* Our Expertise Sub-Routes */}
+          <Route path="our-expertise/:service" element={<OurExpertise />} />
+
+          {/* Our Approach Sub-Routes */}
+          <Route path="our-approach/:method" element={<OurApproach />} />
+
+          {/* Our Projects Sub-Routes */}
+          <Route path="our-projects/:project" element={<OurProjects />} />
+
+          {/* Sectors Sub-Routes */}
+          <Route path="sectors/:sector" element={<Sectors />} />
+
+          {/* Customer Guide Sub-Routes */}
+          <Route path="customer-guide/:guide" element={<CustomerGuide />} />
+
+          {/* Careers Sub-Routes */}
+          <Route path="careers/:topic" element={<Careers />} />
+          
+          {/* Contact Us Sub-Routes */}
+          <Route path="contact-us/:office" element={<ContactUs />} />
+
+          {/* Investors Sub-Routes */}
+          <Route path="investors/:topic" element={<Investors />} />
+
+          {/* Governance Sub-Routes */}
+          <Route path="governance/:topic" element={<Governance />} />
+
+          {/* A catch-all route for any undefined paths */}
           {/* <Route path="*" element={<NotFoundPage />} /> */}
+          {/* For now, redirect any unknown path to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+
         </Route>
       </Routes>
     </Router>
